@@ -37,20 +37,20 @@ jobs:
         #run: terraform -chdir="../Azure_Cloud_Deployment/Infra_IAC/" init
         #run: terraform -chdir="../00_AMS_Agent_Management_System_Application_Infra_Setup/" init
         #run: terraform -chdir="../01_AMS_Agent_Management_System_Azure_Kubernetes_Cluster_deployment" init
-        run: terraform -chdir="../01_AMS_Agent_Management_System_Azure_Kubernetes_Cluster_Extension_Backup" init
+        run: terraform -chdir="../01_AMS_AKS_Cluster_Extension_Backup" init
              
       - name: Terraform Plan
         #run: terraform -chdir="../Azure_Cloud_Deployment/Infra_IAC/" plan -no-color > plan_output.txt 2>&1
         #run: terraform -chdir="../00_AMS_Agent_Management_System_Application_Infra_Setup/" plan
         #run: terraform -chdir="../01_AMS_Agent_Management_System_Azure_Kubernetes_Cluster_deployment" plan
-        run: terraform -chdir="../01_AMS_Agent_Management_System_Azure_Kubernetes_Cluster_Extension_Backup" plan
+        run: terraform -chdir="../01_AMS_AKS_Cluster_Extension_Backup" plan
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
         #run: terraform -chdir="../Azure_Cloud_Deployment/Infra_IAC/" apply -auto-approve -no-color > apply_output.txt 2>&1
         #run: terraform -chdir="../00_AMS_Agent_Management_System_Application_Infra_Setup/" apply -auto-approve
         #run: terraform -chdir="../01_AMS_Agent_Management_System_Azure_Kubernetes_Cluster_deployment" apply -auto-approve 
-        run: terraform -chdir="../01_AMS_Agent_Management_System_Azure_Kubernetes_Cluster_Extension_Backup" apply -auto-approve
+        run: terraform -chdir="../01_AMS_AKS_Cluster_Extension_Backup" apply -auto-approve
         # -var="azure_client_id=${{ secrets.AZURE_CLIENT_ID }}" \
         # -var="azure_client_secret=${{ secrets.AZURE_CLIENT_SECRET }}" \
         # -var="azure_tenant_id=${{ secrets.AZURE_TENANT_ID }}" \
