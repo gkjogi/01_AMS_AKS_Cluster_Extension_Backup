@@ -19,7 +19,7 @@ data "azurerm_subscription" "current" {}
 
 # --- Variables ---
 variable "resource_group_name" { default = "rg-aks-backup-prod" }
-variable "location"            { default = "East US" }
+variable "location"            { default = "Westus2" }
 variable "cluster_name"        { default = "aks-cluster-main" }
 variable "storage_account_name"{ default = "staksbackupprod1" }
 
