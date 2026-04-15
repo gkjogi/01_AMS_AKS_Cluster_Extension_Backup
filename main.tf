@@ -21,7 +21,7 @@ data "azurerm_subscription" "current" {}
 variable "resource_group_name" { default = "rg-aks-backup-prod" }
 variable "location"            { default = "East US" }
 variable "cluster_name"        { default = "aks-cluster-main" }
-variable "storage_account_name"{ default = "staksbackupprod001" }
+variable "storage_account_name"{ default = "staksbackupprod-apr" }
 
 # --- Infrastructure ---
 resource "azurerm_resource_group" "main" {
@@ -53,7 +53,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   default_node_pool {
     name       = "default"
     node_count = 2
-    vm_size    = "Standard_D2s_v3"
+    vm_size    = "Standard_B2s_v2"
   }
 
   identity { type = "SystemAssigned" }
