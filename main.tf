@@ -21,7 +21,7 @@ data "azurerm_subscription" "current" {}
 variable "resource_group_name" { default = "rg-aks-backup-prod" }
 variable "location"            { default = "East US" }
 variable "cluster_name"        { default = "aks-cluster-main" }
-variable "storage_account_name"{ default = "staksbackupprod-apr" }
+variable "storage_account_name"{ default = "staksbackupprod1" }
 
 # --- Infrastructure ---
 resource "azurerm_resource_group" "main" {
