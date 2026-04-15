@@ -1,0 +1,86 @@
+name: "01_AMS_Enterprise_AKS_Backup_Extension_On_Azure_Cloud"
+
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: write
+  pull-requests: write
+
+
+jobs:
+  # 1. DEPLOYMENT JOB
+  Blue_BlueField_Deployment:
+    name: "Terraform - AKS Extension - AKS_Backup - By HARIKRISHNA PALAKILA"
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Terraform Init
+        #run: terraform -chdir="../Azure_Cloud_Deployment/Infra_IAC/" init
+        #run: terraform -chdir="../00_AMS_Agent_Management_System_Application_Infra_Setup/" init
+        #run: terraform -chdir="../01_AMS_Agent_Management_System_Azure_Kubernetes_Cluster_deployment" init
+        run: terraform -chdir="../01_AMS_Agent_Management_System_Azure_Kubernetes_Cluster_Extension_Backup" init
+             
+      - name: Terraform Plan
+        #run: terraform -chdir="../Azure_Cloud_Deployment/Infra_IAC/" plan -no-color > plan_output.txt 2>&1
+        #run: terraform -chdir="../00_AMS_Agent_Management_System_Application_Infra_Setup/" plan
+        #run: terraform -chdir="../01_AMS_Agent_Management_System_Azure_Kubernetes_Cluster_deployment" plan
+        run: terraform -chdir="../01_AMS_Agent_Management_System_Azure_Kubernetes_Cluster_Extension_Backup" plan
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'
+        #run: terraform -chdir="../Azure_Cloud_Deployment/Infra_IAC/" apply -auto-approve -no-color > apply_output.txt 2>&1
+        #run: terraform -chdir="../00_AMS_Agent_Management_System_Application_Infra_Setup/" apply -auto-approve
+        #run: terraform -chdir="../01_AMS_Agent_Management_System_Azure_Kubernetes_Cluster_deployment" apply -auto-approve 
+        run: terraform -chdir="../01_AMS_Agent_Management_System_Azure_Kubernetes_Cluster_Extension_Backup" apply -auto-approve
+        # -var="azure_client_id=${{ secrets.AZURE_CLIENT_ID }}" \
+        # -var="azure_client_secret=${{ secrets.AZURE_CLIENT_SECRET }}" \
+        # -var="azure_tenant_id=${{ secrets.AZURE_TENANT_ID }}" \
+        # -var="azure_subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+        #env:
+          ## Mapping GitHub Secrets to Terraform Variables
+          #TF_VAR_azure_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
+          #TF_VAR_azure_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          #TF_VAR_azure_client_id: ${{ secrets.AZURE_CLIENT_ID }}
+          #TF_VAR_azure_client_secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+      #- name: Debug Variables
+      #  run: |
+      #    if [ -z "$TF_VAR_azure_client_id" ]; then echo "Client ID is EMPTY"; else echo "Client ID is SET"; fi
+      #  env:
+      #    TF_VAR_azure_client_id: ${{ secrets.AZURE_CLIENT_ID }}
+
+      #- name: Terraform Destroy
+      #  if: github.ref == 'refs/heads/main'
+      #  #run: terraform -chdir="../Azure_Cloud_Deployment/Infra_IAC/" apply -auto-approve -no-color > apply_output.txt 2>&1
+      #  #run: terraform -chdir="../00_AMS_Agent_Management_System_Application_Infra_Setup/" apply -auto-approve
+      #  run: terraform -chdir="../01_AMS_Agent_Management_System_Azure_Kubernetes_Cluster_deployment" destroy -auto-approve
+      #  env:
+      #    TF_VAR_azure_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
+      #    TF_VAR_azure_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      #    TF_VAR_azure_client_id: ${{ secrets.AZURE_CLIENT_ID }}
+      #    TF_VAR_azure_client_secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+      #    ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      #    ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      #    ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      #    ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+    
+
+        
